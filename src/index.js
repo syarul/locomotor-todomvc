@@ -6,5 +6,5 @@ let props = { todo: 'called' }
 
 locoDOM.render(
   <App {...props} />,
-  document.querySelector('.todoapp')
+  document.body
 )

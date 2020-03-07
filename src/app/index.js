@@ -1,55 +1,58 @@
-import Locomotor, { useState, useReducer } from 'locomotor'
+import { L, useReducer, useState, useEffect } from 'locomotor/index'
+import Header from './header'
+import Todo from './todo'
+import TodoFooter from './todoFooter'
+import Footer from './footer'
+import { todoReducer, initialTodo } from './reducers/todoReducer'
+import { SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETE } from './utils'
 
-const ENTER_KEY = 13
+function App () {
+  const [{
+    count,
+    todos,
+    clearToggle,
+    plural
+  }, dispatch] = useReducer(todoReducer, initialTodo)
 
-const initialState = 0;
-const reducer = (state, action) => {
-  switch (action) {
-    case 'increment': return state + 1;
-    case 'decrement': return state - 1;
-    case 'reset': return 0;
-    default: throw new Error('Unexpected action');
+  const [visibilityFilter, setVisibilityFilter] = useState(SHOW_ALL)
+
+  // useEffect(() => {
+  //   console.log(visibilityFilter)
+  // })
+
+  let useTodos = todos
+  
+  if (visibilityFilter === SHOW_ACTIVE) {
+    useTodos = todos.filter(t => !t.completed)
+  } else if (visibilityFilter === SHOW_COMPLETE) {
+    useTodos = todos.filter(t => t.completed)
   }
-};
 
-function Header() {
-
-  const [newtodo, setNewtodo] = useState('')
-
-  const [todos, setTodos] = useState([])
-
-  const [count, dispatch] = useReducer(reducer, initialState)
-
-  const onChange = e => {
-    setNewtodo(e.target.value.trim())
-  }
-
-  console.log(count)
-
-  const onKeydown = e => {
-    dispatch('increment')
-    if (e.keyCode !== ENTER_KEY) return
-    if(newtodo) {
-
+  const filterTodo = hash => {
+    console.log(hash)
+    if(hash === undefined) return
+    if (hash.match('active')) {
+      setVisibilityFilter(SHOW_ACTIVE)
+    } else if (hash.match('completed')) {
+      setVisibilityFilter(SHOW_COMPLETE)
     }
+    // cb()
   }
 
   return (
-    <header id="header">
-      <h1>todos</h1>
-      <input id='new-todo' class='new-todo' onChange={onChange} onKeydown={onKeydown} placeholder='What needs to be done?' autofocus=''/>
-    </header>
+    <L>
+      <section class='todoapp'>
+        <Header dispatch={dispatch} />
+        <Todo todos={useTodos} dispatch={dispatch} />
+        <TodoFooter
+          count={count}
+          plural={plural}
+          clearToggle={clearToggle}
+          filterTodo={filterTodo} />
+      </section>
+      <Footer />
+    </L>
   )
 }
 
-function App() {
-
-  return (
-    <Locomotor>
-      <Header />
-      <div> foo </div>
-    </Locomotor>
-  )
-}
-
-export default Header
+export default App
