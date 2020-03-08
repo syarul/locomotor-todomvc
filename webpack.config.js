@@ -11,8 +11,8 @@ module.exports = {
     './src/index.js'
   ],
   output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: 'build.js'
+    path: path.resolve(__dirname, './build'),
+    filename: 'app.js'
   },
   module: {
     rules: [

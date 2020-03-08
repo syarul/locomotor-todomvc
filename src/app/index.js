@@ -1,9 +1,10 @@
-import { L, useReducer, useState, useEffect } from 'locomotor/index'
+import { L, useReducer } from 'locomotor'
 import Header from './header'
 import Todo from './todo'
 import TodoFooter from './todoFooter'
 import Footer from './footer'
 import { todoReducer, initialTodo } from './reducers/todoReducer'
+import { filterReducer, initialFilter } from './reducers/filterReducer'
 import { SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETE } from './utils'
 
 function App () {
@@ -11,44 +12,45 @@ function App () {
     count,
     todos,
     clearToggle,
-    plural
+    plural,
+    isChecked
   }, dispatch] = useReducer(todoReducer, initialTodo)
 
-  const [visibilityFilter, setVisibilityFilter] = useState(SHOW_ALL)
+  const [filter, dispatchFilter] = useReducer(filterReducer, initialFilter)
 
-  // useEffect(() => {
-  //   console.log(visibilityFilter)
-  // })
+  const { name = SHOW_ALL } = filter.find(({ selected }) => selected) || {}
 
-  let useTodos = todos
-  
-  if (visibilityFilter === SHOW_ACTIVE) {
-    useTodos = todos.filter(t => !t.completed)
-  } else if (visibilityFilter === SHOW_COMPLETE) {
-    useTodos = todos.filter(t => t.completed)
-  }
-
-  const filterTodo = hash => {
-    console.log(hash)
-    if(hash === undefined) return
-    if (hash.match('active')) {
-      setVisibilityFilter(SHOW_ACTIVE)
-    } else if (hash.match('completed')) {
-      setVisibilityFilter(SHOW_COMPLETE)
+  const useTodos = todos.filter(t => {
+    if (name === SHOW_ACTIVE) {
+      return !t.completed
+    } else if (name === SHOW_COMPLETE) {
+      return t.completed
+    } else {
+      return t
     }
-    // cb()
-  }
+  })
 
   return (
     <L>
-      <section class='todoapp'>
+      <section className='todoapp'>
         <Header dispatch={dispatch} />
-        <Todo todos={useTodos} dispatch={dispatch} />
+        <section className='main'>
+          <input
+            id='toggle-all'
+            className='toggle-all'
+            type='checkbox'
+            checked={isChecked}
+            onClick={() => dispatch({ action: 'completeAll' })} />
+          <label for='toggle-all'>Mark all as complete</label>
+          <Todo todos={useTodos} dispatch={dispatch} />
+        </section>
         <TodoFooter
           count={count}
           plural={plural}
           clearToggle={clearToggle}
-          filterTodo={filterTodo} />
+          clearCompleted={() => dispatch({ action: 'clearComplete' })}
+          filter={filter}
+          filterTodo={dispatchFilter} />
       </section>
       <Footer />
     </L>

@@ -1,4 +1,4 @@
-import { useState } from 'locomotor/index'
+import { useState } from 'locomotor'
 import { ENTER_KEY } from './utils'
 
 function Header ({ dispatch }) {
@@ -15,7 +15,13 @@ function Header ({ dispatch }) {
   return (
     <header id='header'>
       <h1>todos</h1>
-      <input id='new-todo' class='new-todo' onChange={onChange} value={value} placeholder='What needs to be done?' autofocus='' />
+      <input
+        id='new-todo'
+        className='new-todo'
+        onChange={onChange}
+        value={value}
+        placeholder='What needs to be done?'
+        autofocus='' />
     </header>
   )
 }

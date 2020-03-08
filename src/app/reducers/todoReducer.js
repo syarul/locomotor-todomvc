@@ -1,7 +1,12 @@
-const uuid = () => Math.round(Math.random() * 1e17).toString(32)
+import { uuid, store } from '../utils'
+
+const DATA_STORE = 'DATA_STORE'
+// we can disable using localStorage at anytime
+const useStore = false
 
 const processOutput = state => {
   const { todos } = state
+  useStore && store(DATA_STORE, todos)
   const uncompleted = todos.filter(c => !c.completed)
   const completed = todos.filter(c => c.completed)
   return {
@@ -14,7 +19,7 @@ const processOutput = state => {
 }
 
 export const initialTodo = processOutput({
-  todos: []
+  todos: (useStore && store(DATA_STORE)) || []
 })
 
 export const todoReducer = (state, { action, todo }) => {
@@ -48,6 +53,22 @@ export const todoReducer = (state, { action, todo }) => {
       const idx = state.todos.findIndex(t => t.id === todo.id)
       const todos = Object.assign([], state.todos)
       todos.splice(idx, 1)
+      return processOutput({
+        ...state,
+        todos
+      })
+    }
+    case 'clearComplete':
+    {
+      const todos = state.todos.filter(t => !t.completed)
+      return processOutput({
+        ...state,
+        todos
+      })
+    }
+    case 'completeAll':
+    {
+      const todos = state.todos.map(t => ({ ...t, completed: !state.isChecked }))
       return processOutput({
         ...state,
         todos

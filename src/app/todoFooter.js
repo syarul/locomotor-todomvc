@@ -1,16 +1,14 @@
 import Filter from './filter'
 
-function TodoFooter ({ count, plural, clearToggle, filterTodo }) {
-  const clearCompleted = () => {}
-
+function TodoFooter ({ count, plural, clearToggle, filter, filterTodo, clearCompleted }) {
   return (
-    <footer class='footer'>
-      <span class='todo-count'>
+    <footer className='footer'>
+      <span className='todo-count'>
         <strong>{count}</strong> item{plural} left
       </span>
-      <Filter filterTodo={filterTodo} />
+      <Filter filter={filter} filterTodo={filterTodo} />
       {clearToggle
-        ? (<button id='clear-completed' onClick={clearCompleted} class='clear-completed'>
+        ? (<button id='clear-completed' onClick={clearCompleted} className='clear-completed'>
         Clear completed
         </button>) : ''}
     </footer>

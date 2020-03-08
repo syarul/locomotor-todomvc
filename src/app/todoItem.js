@@ -1,4 +1,4 @@
-import { useState } from 'locomotor/index'
+import { useState } from 'locomotor'
 import { ENTER_KEY } from './utils'
 
 function TodoItem (item) {
@@ -8,7 +8,7 @@ function TodoItem (item) {
 
   const onChange = e => {
     setValue(e.target.value)
-    if(e.keyCode === ENTER_KEY) {
+    if (e.keyCode === ENTER_KEY) {
       dispatch({
         action: 'edit',
         todo: {
@@ -20,7 +20,7 @@ function TodoItem (item) {
     }
   }
 
-  const editTodo = () => { 
+  const editTodo = () => {
     dispatch({
       action: 'edit',
       todo: {
@@ -28,7 +28,7 @@ function TodoItem (item) {
         editing: true
       }
     })
-   }
+  }
 
   const activeClass = (completed, editing) => {
     let cl = []
@@ -52,13 +52,13 @@ function TodoItem (item) {
   }
 
   return (
-    <li class={activeClass(completed, editing)}>
-      <div class='view'>
-        <input class='toggle' type='checkbox' checked={completed} onClick={toggle} />
+    <li className={activeClass(completed, editing)}>
+      <div className='view'>
+        <input className='toggle' type='checkbox' checked={completed} onClick={toggle} />
         <label onDblclick={editTodo}>{todo}</label>
-        <button class='destroy' onClick={destroy} />
+        <button className='destroy' onClick={destroy} />
       </div>
-      <input class='edit' value={value} onChange={onChange} autofocus={true}/>
+      <input className='edit' value={value} onChange={onChange} autofocus='' />
     </li>
   )
 }

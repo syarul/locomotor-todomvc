@@ -1,15 +1,16 @@
 import { camelCase } from '../utils'
 
-export const intialFilter = Array.from(['all', 'active', 'completed'], page => {
+export const initialFilter = Array.from(['all', 'active', 'completed'], page => {
+  const [selected] = window.location.hash.match(/([^#/])(.*)/) || ['all']
   return {
     href: `#/${page}`,
     name: camelCase(page),
-    selected: ''
+    selected: selected === page
   }
 })
 
 export const filterReducer = (state, href) => {
   return Array.from(state, filter =>
-    filter.href === href ? ({ ...filter, selected: 'selected' }) : ({ ...filter, selected: '' })
+    filter.href === href ? ({ ...filter, selected: true }) : ({ ...filter, selected: false })
   )
 }
