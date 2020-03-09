@@ -15,7 +15,7 @@
     "babel-plugin-transform-jsx": "^2.0.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
-    "locomotor": "^0.1.10",
+    "locomotor": "https://github.com/syarul/locomotor#hydrate",
     "opener": "^1.5.1",
     "todomvc-app-css": "^2.1.2",
     "todomvc-common": "^1.0.5",

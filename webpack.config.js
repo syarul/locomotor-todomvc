@@ -26,6 +26,9 @@ module.exports = {
   resolve: {
     modules: ['node_modules'],
     extensions: ['*', '.js'],
+    alias: {
+      locomotor: path.resolve(__dirname, './node_modules/locomotor/index.js')
+    }
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

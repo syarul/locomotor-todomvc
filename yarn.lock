@@ -3146,10 +3146,9 @@ locate-path@^3.0.0:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
 
-locomotor@^0.1.10:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/locomotor/-/locomotor-0.1.10.tgz#88c4716990228b9e342ab59e9658a31d5656cca2"
-  integrity sha512-WufmXiUYBRJDmpeEofmfagPHFSON2o5gC1tsCMmxvT4UsltW+Gui/DDTQa7FWLyMCJdn8uIxKNDvu2CzebdvdA==
+"locomotor@https://github.com/syarul/locomotor#hydrate":
+  version "0.1.13"
+  resolved "https://github.com/syarul/locomotor#0816ddf7d0fab39ca9694335c33fef04e1c2f224"
   dependencies:
     co "^4.6.0"
     hookuspocus "https://github.com/syarul/hookuspocus"
